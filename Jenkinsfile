@@ -7,7 +7,7 @@ pipeline {
         sh 'docker build -t SagarH87/ecr-demo:""$BUILD_ID"" .'
       }
     }
-  }
+    
     stage ('Publish to ECR') {
       steps {
         //sh 'aws ecr-public get-login-password --region eu-west-2 | docker login --username AWS --password-stdin public.ecr.aws/t7e2c6o4'
@@ -19,5 +19,6 @@ pipeline {
           sh 'docker push public.ecr.aws/t5z1r9x4/ecr-demo1:""$BUILD_ID""'
          }
       }
-  }
-} 
+    }
+  } 
+}
