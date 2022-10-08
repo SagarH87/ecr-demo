@@ -7,25 +7,17 @@ pipeline {
         sh 'docker build -t SagarH87/ecr-demo:""$BUILD_ID"" .'
       }
     }
-    
-     stage ('Publish to DockerHub') {
-      steps {
-        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-          sh 'docker push SagarH87/ecr-demo:""$GIT_COMMIT""'
-         }
-       }
-     }
-    stage ('Publish to ECR') {
+  }
+  stage ('Publish to ECR') {
       steps {
         //sh 'aws ecr-public get-login-password --region eu-west-2 | docker login --username AWS --password-stdin public.ecr.aws/t7e2c6o4'
         //withAWS(credentials: 'sam-jenkins-demo-credentials', region: 'eu-west-2') {
          withEnv(["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}", "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}", "AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"]) {
           sh 'docker login -u AWS -p $(aws ecr-public get-login-password --region us-east-1) public.ecr.aws/t5z1r9x4' //985729960198.dkr.ecr.eu-west-2.amazonaws.com'
           sh 'docker build -t ecr-demo .'
-          sh 'docker tag ecr-demo1:latest public.ecr.aws/t5z1r9x4/ecr-demo1:latest
-          sh 'docker push public.ecr.aws/t5z1r9x4/ecr-demo1:""BUILD_ID""'
+          sh 'docker tag ecr-demo1:latest public.ecr.aws/t5z1r9x4/ecr-demo1:""$BUILD_ID""'
+          sh 'docker push public.ecr.aws/t5z1r9x4/ecr-demo1:""$BUILD_ID""'
          }
-       }
-    }
+      }
   }
-}
+} 
