@@ -8,7 +8,7 @@ pipeline {
       }
     }
   }
-  stage ('Publish to ECR') {
+    stage ('Publish to ECR') {
       steps {
         //sh 'aws ecr-public get-login-password --region eu-west-2 | docker login --username AWS --password-stdin public.ecr.aws/t7e2c6o4'
         //withAWS(credentials: 'sam-jenkins-demo-credentials', region: 'eu-west-2') {
